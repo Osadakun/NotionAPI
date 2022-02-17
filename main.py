@@ -17,7 +17,7 @@ for i in range(len(r.json()["results"])):
   name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
   quantity = r.json()['results'][i]['properties']['日付']['date']['start']
   quantity = quantity[:10]
-  tdate = dt.strptime(quantity, "%Y-%m-%d")
+  tdate = dt.strptime(quantity, "%Y-%m-%d %H:%M:%S")
   print(tdate)
   # print(date(quantity))
   # print('%s: %s' %(name, quantity))
