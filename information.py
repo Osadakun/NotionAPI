@@ -4,7 +4,7 @@ import requests
 import config
 from pprint import pprint
 import json
-from datetime import datetime
+from datetime import datetime as dt
 
 url = "https://api.notion.com/v1/databases/%s/query" %config.NOTION_DATABASE_ID
 headers = {
@@ -20,14 +20,23 @@ def notion():
     name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
     quantity = r.json()['results'][i]['properties']['日付']['date']['start']
     quantity = quantity[:10]
-    tdate = datetime.strptime(quantity, "%Y-%m-%d")
+    tdate = dt.strptime(quantity, "%Y-%m-%d")
+    # tdate = datetime.strptime(quantity, "%Y-%m-%d")
     today_task[tdate] = name
   return today_task
 
 def w_txt():
-  f = open("memo.txt", "w", encoding="UTF-8")
+  # f = open("memo.txt", "w", encoding="UTF-8")
   inf = notion()
-  today_now = datetime.datetime.now()
+  today_now = str(dt.now())
+  today_now = today_now[:10]
+  today_now = dt.strptime(today_now, "%Y-%m-%d")
   x = today_task.get(today_now)
-  f.writelines(x)
-  f.close()
+  # f.write(x)
+  # f.close()
+  print(inf)
+  print(("--------------"))
+  print(today_now)
+  print(("--------------"))
+  print(x)
+  print(("--------------"))

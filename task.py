@@ -1,9 +1,9 @@
 import schedule
 from time import sleep
-import infomation
+import information
 
 def task():
-  infomation.w_txt()
+  information.w_txt()
 
 schedule.every(3).seconds.do(task)
 
