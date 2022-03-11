@@ -15,7 +15,6 @@ headers = {
 r = requests.post(url, headers=headers)
 today_task = {}                   # タスクが入る，辞書型で管理
 tasks = ""
-tasks_number = 1
 
 def slicer(item):                 # 文字列変換＋スライス(時間で必要なのが前10個分だから)
   item = str(item)[:10]
@@ -24,7 +23,7 @@ def slicer(item):                 # 文字列変換＋スライス(時間で必�
 today_now = str(dt.now())
 today_now = slicer(today_now)
 
-def notion():                     # Notionから情報を持ってくる
+def notion(num):                     # Notionから情報を持ってくる
   for i in range(len(r.json()["results"])):
     name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
     quantity = r.json()['results'][i]['properties']['日付']['date']['start']
@@ -32,18 +31,18 @@ def notion():                     # Notionから情報を持ってくる
     t_date = dt.strptime(quantity, "%Y-%m-%d")  # 取得した項目の日付
     t_date = slicer(t_date)
     if t_date == today_now:
-      today_task[tasks_number] = name
-      tasks_number += 1
+      today_task[num] = name
+      num += 1
   return today_task
 
-def w_txt():
-  inf = notion()                  # 今日のタスクが入る
+def w_txt(tasks):
+  inf = notion(1)                  # 今日のタスクが入る
   inf_count = len(inf)            # 何個あるか調べる
   if inf_count == 0:
     return "今日のタスクはありません"
   for i in range(1,inf_count+1):
     if i == inf_count:
-      tasks += today_task + "です！"
+      tasks += today_task[i] + "です！"
     else:
       tasks += today_task[i] + "と"
   return tasks

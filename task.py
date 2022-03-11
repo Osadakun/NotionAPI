@@ -5,7 +5,7 @@ from time import sleep
 import information
 
 def task():       # 定期実行
-  information.w_txt()
+  print(information.w_txt("今日の予定は"))
 
 schedule.every(3).seconds.do(task)
 
