@@ -14,6 +14,9 @@ headers = {
 }
 r = requests.post(url, headers=headers)
 today_task = {}                   # タスクが入る，辞書型で管理
+today_date = dt.now()
+today_date = today_date[:10]
+print(today_date)
 
 def notion():                     # Notionから情報を持ってくる
   for i in range(len(r.json()["results"])):
@@ -22,9 +25,11 @@ def notion():                     # Notionから情報を持ってくる
     quantity = quantity[:10]      # 年月日だけ欲しいからスライス
     tdate = dt.strptime(quantity, "%Y-%m-%d")
     # tdate = datetime.strptime(quantity, "%Y-%m-%d")
-    today_task[tdate] = name
-  return today_task
-
+    # if tdate == 
+      # today_task[tdate] = name
+    # print(today_task)
+  # return today_task
+  # print(today_task)
 def w_txt():
   # f = open("memo.txt", "w", encoding="UTF-8")
   inf = notion()
@@ -34,9 +39,9 @@ def w_txt():
   x = today_task.get(today_now)   # 今日にタスクあるかどうか確認
   # f.write(x)
   # f.close()
-  print(inf)
-  print(("--------------"))
-  print(today_now)
-  print(("--------------"))
-  print(x)
-  print(("--------------"))
+  # print(inf)
+  # print(("--------------"))
+  # print(today_now)
+  # print(("--------------"))
+  # print(x)
+  # print(("--------------"))
