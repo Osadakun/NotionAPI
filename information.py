@@ -14,26 +14,27 @@ headers = {
 }
 r = requests.post(url, headers=headers)
 today_task = {}                   # タスクが入る，辞書型で管理
+
+
+def slicer(item):                 # 文字列変換＋スライス(時間で必要なのが前10個分だから)
+  item = str(item)[:10]
+  return item
+
 today_date = str(dt.now())
 today_date = slicer(today_date)
-print(today_date)
-
-def slicer(item):
-  item = item[:10]
-  return item
 
 def notion():                     # Notionから情報を持ってくる
   for i in range(len(r.json()["results"])):
     name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
     quantity = r.json()['results'][i]['properties']['日付']['date']['start']
-    quantity = quantity[:10]      # 年月日だけ欲しいからスライス
+    quantity = slicer(quantity)      # 年月日だけ欲しいからスライス
     tdate = dt.strptime(quantity, "%Y-%m-%d")
+    tdate = slicer(tdate)
     if tdate == today_date:
-      today_task[tdate] = name
+      today_task[name] = tdate
   return today_task
   # return today_task
   # print(today_task)
-
 print(notion())
 def w_txt():
   # f = open("memo.txt", "w", encoding="UTF-8")
