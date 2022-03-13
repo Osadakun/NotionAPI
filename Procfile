@@ -1,1 +1,1 @@
-web: python information.py
+web: python scheduler.py
