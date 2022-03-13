@@ -52,7 +52,7 @@ def notion(num):                     # Notionから情報を持ってくる
 
 def w_txt(tasks):
   inf = notion(1)                  # 今日のタスクが入る
-  inf_count = len(inf)            # 何個あるか調べる
+  inf_count = len(inf)             # 何個あるか調べる
   if inf_count == 0:
     return "今日のタスクはありません"
   for i in range(1,inf_count+1):
