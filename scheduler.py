@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
 import os
-import config
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -14,9 +13,9 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-LINE_CHANNEL_ACCESS_TOKEN = config.LINE_ACCESS_TOKEN
-LINE_CHANNEL_SECRET = config.LINE_CHANNEL_SECRET
-USER_ID = config.LINE_USER_ID
+LINE_CHANNEL_ACCESS_TOKEN = os.environ(LINE_ACCESS_TOKEN)
+LINE_CHANNEL_SECRET = os.environ(LINE_CHANNEL_SECRET)
+USER_ID = os.environ(LINE_USER_ID)
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 
 def main():
