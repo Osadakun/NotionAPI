@@ -2,10 +2,10 @@
 # coding: utf-8
 import schedule
 from time import sleep
-import information
+import main
 
 def task():       # 定期実行
-  print(information.w_txt("今日の予定は"))
+  print(main.w_txt("今日の予定は"))
 
 schedule.every(3).seconds.do(task)
 

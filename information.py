@@ -28,7 +28,7 @@ r = requests.post(url, headers=headers)
 today_task = {}                   # タスクが入る，辞書型で管理
 tasks = ""
 
-line_bot_api = LineBotApi(config.ACCESS_TOKEN)
+line_bot_api = LineBotApi(config.LINWACCESS_TOKEN)
 handler = WebhookHandler(config.CHANNEL_SECRET)
 
 def slicer(item):                 # 文字列変換＋スライス(時間で必要なのが前10個分だから)
@@ -65,3 +65,4 @@ def w_txt(tasks):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))            # Heroku側が空いたポートを探してくれる 固定ポートにするとアプリ落ちる
     app.run(host="0.0.0.0", port=port)
+    print(w_txt("今日の予定は"))
