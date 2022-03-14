@@ -17,9 +17,9 @@ from flask import Flask, render_template, g, request, abort
 
 app = Flask(__name__)
 
-url = "https://api.notion.com/v1/databases/%s/query" %os.environ["LINE_ACCESS_TOKENNOTION_DATABASE_ID"]
+url = "https://api.notion.com/v1/databases/%s/query" %os.environ["NOTION_DATABASE_ID"]
 headers = {
-  'Authorization': 'Bearer ' + os.environ["LINE_ACCESS_TOKENNOTION_ACCESS_TOKEN"],
+  'Authorization': 'Bearer ' + os.environ["NOTION_ACCESS_TOKEN"],
   'Notion-Version': '2021-08-16',
   'Content-Type': 'application/json',
 }
