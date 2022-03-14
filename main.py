@@ -53,7 +53,7 @@ def notion(num):                     # Notionから情報を持ってくる
       num += 1
   return today_task
 
-def w_txt(tasks):
+def crate_task_list(tasks):
   inf = notion(1)                  # 今日のタスクが入る
   inf_count = len(inf)             # 何個あるか調べる
   if inf_count == 0:
@@ -70,4 +70,4 @@ def main(text):
   line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
-    main(w_txt("今日のタスクは\n"))
+    main(crate_task_list("今日のタスクは\n"))
