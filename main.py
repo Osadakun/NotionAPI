@@ -1,3 +1,14 @@
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
+
+import os
+handler = WebhookHandler(os.environ["LINE_CHANNEL_SECRET"])
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 
