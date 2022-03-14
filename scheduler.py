@@ -22,5 +22,9 @@ def main():
     pushText = TextSendMessage(text="勤怠を登録しますか？")
     line_bot_api.push_message(USER_ID, messages=pushText)
 
+@app.route("/")
+def hello_world():
+    return "hello world!"
+
 if __name__ == "__main__":
     main()
