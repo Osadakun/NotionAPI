@@ -9,7 +9,6 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 import requests
-import config
 from pprint import pprint
 import json
 import os
