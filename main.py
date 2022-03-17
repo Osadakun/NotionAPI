@@ -37,7 +37,7 @@ def slicer(item):                 # 文字列変換＋スライス(時間で必�
   item = str(item)[:10]
   return item
 
-today_now = str(dt.now())
+today_now = str(dt.now() + datetime.timedelta(hours=9))
 today_now = slicer(today_now)
 
 def notion(num):                     # Notionから情報を持ってくる
