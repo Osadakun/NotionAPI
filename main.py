@@ -16,6 +16,7 @@ from datetime import datetime as dt
 from flask import Flask, render_template, g, request, abort
 
 app = Flask(__name__)
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 url = "https://api.notion.com/v1/databases/%s/query" %os.environ["NOTION_DATABASE_ID"]
 headers = {
