@@ -38,9 +38,9 @@ def slicer(item):                 # 文字列変換＋スライス(時間で必�
   item = str(item)[:10]
   return item
 
-today_now = str(dt.now())
+today_now = str(dt.now() + datetime.timedelta(hours=9))
 today_now = slicer(today_now)
-print(today_now)
+
 def notion(num):                     # Notionから情報を持ってくる
   for i in range(len(r.json()["results"])):
     name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
@@ -49,6 +49,8 @@ def notion(num):                     # Notionから情報を持ってくる
     quantity = slicer(quantity)      # 年月日だけ欲しいからスライス
     t_date = dt.strptime(quantity, "%Y-%m-%d")  # 取得した項目の日付
     t_date = slicer(t_date)
+    print(t_date)
+    print(today_now)
     if t_date == today_now:
       today_task[num] = name
       today_task_time[num] = times
@@ -68,8 +70,9 @@ def crate_task_list(tasks):
   return tasks
 
 def main(text):
-  pushText = TextSendMessage(text=text)
-  line_bot_api.push_message(USER_ID, messages=pushText)
+  print()
+  # pushText = TextSendMessage(text=text)
+  # line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
     # print(main(crate_task_list("今日のタスクは\n")))
