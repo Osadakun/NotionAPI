@@ -26,9 +26,6 @@ headers = {
   'Content-Type': 'application/json',
 }
 req = requests.post(url, headers=headers)
-# today_task = {}                   # タスクが入る，辞書型で管理
-# today_task_time = {}              # タスクの開始時間が入る，辞書型で管理
-# today_match_task = {}
 tasks = ""
 
 USER_ID = config.LINE_USER_ID
@@ -40,14 +37,6 @@ def slicer(item):                 # 文字列変換＋スライス(時間で必�
   item = item.replace("-", "")
   return item
 
-# def matching(num):                # タスク内容と時間で辞書を作り直す関数
-#   for i in range(1,num+1):
-#     task = today_task[i]
-#     time = today_task_time[i]
-#     today_match_task[time] = task
-#   today_match_task = sorted(today_match_task.items())
-#   return today_match_task
-
 today_now = str(dt.now() + datetime.timedelta(days=1))
 today_now = slicer(today_now)
 
@@ -58,43 +47,31 @@ def notion(today_task):                     # Notionから情報を持ってく�
     t_date = slicer(quantity)
     if t_date == today_now:
       name = req.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
-      today_task[times] = name
+      today_task[name] = times
     else:
       continue
-    today_task = sorted(today_task.items())
-    return today_task
-  #   name = req.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
-  #   quantity = slicer(quantity)      # 年月日だけ欲しいからスライス
-  #   t_date = dt.strptime(quantity, "%Y-%m-%d")  # 取得した項目の日付
-  #   t_date = slicer(t_date)
-  #   print(t_date)
-  #   if t_date == today_now:
-  #     today_task[num] = name
-  #     today_task_time[num] = times
-  #     num += 1
-  # return today_task
+  print(today_task)
+  l = sorted(today_task.items(), key=lambda x: x[1])
+  # l = sorted(today_task.items())
+  print(l)
+  today_task.clear()
+  today_task.update(l)
+  print(today_task)
+  return today_task
 
 def crate_task_list(task):
   today_task = {}
   inf = notion(today_task)                  # 今日のタスクが入る
-  print(inf)
-  if inf == {}:
+  if inf == None:
     return "明日のタスクはありません"
-  # inf_count = len(inf)             # 何個あるか調べる
-  # for k, v in inf.items():
-  #   task += k + "から" + v + "\n"
-  # return task
-  # for i in range(1,inf_count+1):
-  #   if i == inf_count:
-  #     tasks += today_task_time[i] + "から" + today_task[i] + "\n" + "です！"
-  #   else:
-  #     tasks += today_task_time[i] + "から" + today_task[i] + "\n"
-  # return tasks
+  for k, v in inf.items():
+    task += v + "から" + k + "\n"
+  task += "です！"
+  return task
 
 def main(text):
   pushText = TextSendMessage(text=text)
   line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
-    # print(main(crate_task_list("今日のタスクは\n")))
     main(crate_task_list("明日のタスクは\n"))
