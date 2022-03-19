@@ -25,9 +25,7 @@ headers = {
   'Notion-Version': '2021-08-16',
   'Content-Type': 'application/json',
 }
-r = requests.post(url, headers=headers)
-today_task = {}                   # タスクが入る，辞書型で管理
-today_task_time = {}              # タスクの開始時間が入る，辞書型で管理
+req = requests.post(url, headers=headers)
 tasks = ""
 
 USER_ID = os.environ["LINE_USER_ID"]
@@ -36,40 +34,44 @@ handler = WebhookHandler(os.environ["LINE_CHANNEL_SECRET"])
 
 def slicer(item):                 # 文字列変換＋スライス(時間で必要なのが前10個分だから)
   item = str(item)[:10]
+  item = item.replace("-", "")
   return item
 
-today_now = str(dt.now() + datetime.timedelta(hours=9))
+today_now = str(dt.now() + datetime.timedelta(days=1))
 today_now = slicer(today_now)
 
-def notion(num):                     # Notionから情報を持ってくる
-  for i in range(len(r.json()["results"])):
-    name = r.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
-    quantity = r.json()['results'][i]['properties']['日付']['date']['start']
+def notion(today_task):                     # Notionから情報を持ってくる
+  for i in range(len(req.json()["results"])):
+    quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     times = quantity[11:16]
-    quantity = slicer(quantity)      # 年月日だけ欲しいからスライス
-    t_date = dt.strptime(quantity, "%Y-%m-%d")  # 取得した項目の日付
-    t_date = slicer(t_date)
+    t_date = slicer(quantity)
     if t_date == today_now:
-      today_task[num] = name
-      today_task_time[num] = times
-      num += 1
+      name = req.json()['results'][i]['properties']['名前']['title'][0]['plain_text']
+      today_task[name] = times
+    else:
+      continue
+  print(today_task)
+  l = sorted(today_task.items(), key=lambda x: x[1])
+  # l = sorted(today_task.items())
+  print(l)
+  today_task.clear()
+  today_task.update(l)
+  print(today_task)
   return today_task
 
-def crate_task_list(tasks):
-  inf = notion(1)                  # 今日のタスクが入る
-  inf_count = len(inf)             # 何個あるか調べる
-  if inf_count == 0:
-    return "今日のタスクはありません"
-  for i in range(1,inf_count+1):
-    if i == inf_count:
-      tasks += today_task_time[i] + "から" + today_task[i] + "\n" + "です！"
-    else:
-      tasks += today_task_time[i] + "から" + today_task[i] + "\n"
-  return tasks
+def crate_task_list(task):
+  today_task = {}
+  inf = notion(today_task)                  # 今日のタスクが入る
+  if inf == None:
+    return "明日のタスクはありません"
+  for k, v in inf.items():
+    task += v + "から" + k + "\n"
+  task += "です！"
+  return task
 
 def main(text):
   pushText = TextSendMessage(text=text)
   line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
-    main(crate_task_list("今日のタスクは\n"))
+    main(crate_task_list("明日のタスクは\n"))
