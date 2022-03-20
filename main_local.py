@@ -50,19 +50,16 @@ def notion(today_task):                     # Notionから情報を持ってく�
       today_task[name] = times
     else:
       continue
-  print(today_task)
   l = sorted(today_task.items(), key=lambda x: x[1])
   # l = sorted(today_task.items())
-  print(l)
   today_task.clear()
   today_task.update(l)
-  print(today_task)
   return today_task
 
 def crate_task_list(task):
   today_task = {}
   inf = notion(today_task)                  # 今日のタスクが入る
-  if inf == None:
+  if inf == {}:
     return "明日のタスクはありません"
   for k, v in inf.items():
     task += v + "から" + k + "\n"
