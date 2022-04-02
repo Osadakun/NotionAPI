@@ -71,4 +71,4 @@ def main(text):
   line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
-    main(crate_task_list("【プライベート】\n明日のタスクは\n"))
+    main(crate_task_list("明日のタスクは\n"))
