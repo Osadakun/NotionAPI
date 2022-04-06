@@ -42,7 +42,13 @@ today_now = slicer(today_now)
 
 def notion(today_task):                     # Notionから情報を持ってくる
   for i in range(len(req.json()["results"])):
-    quantity = req.json()['results'][i]['properties']['日付']['date']['start']
+    # quantity = req.json()['results'][i]['properties']['日付']['date']['start']
+    try:
+      quantity = req.json()['results'][i]['properties']['日付']['date']['start']
+    except TypeError:
+      pass
+    else:
+      pass
     times = quantity[11:16]
     t_date = slicer(quantity)
     if t_date == today_now:
