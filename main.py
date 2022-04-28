@@ -41,12 +41,15 @@ today_now = slicer(today_now)
 
 def notion(today_task):                     # Notionから情報を持ってくる
   for i in range(len(req.json()["results"])):
-    try:
-      quantity = req.json()['results'][i]['properties']['日付']['date']['start']
-    except:
-      line_bot_api.push_message(USER_ID, messages="バグ起きてるので確認してください！")
+    for _ in range(3):  # 最大3回実行
+      try:
+        quantity = req.json()['results'][i]['properties']['日付']['date']['start']  # 失敗しそうな処理
+      except Exception as e:
+        pass  # 必要であれば失敗時の処理
+      else:
+        break  # 失敗しなかった時はループを抜ける
     else:
-      pass
+      line_bot_api.push_message(USER_ID, messages="バグ起きてるので確認してください！")
     times = quantity[11:16]
     t_date = slicer(quantity)
     if t_date == today_now:
