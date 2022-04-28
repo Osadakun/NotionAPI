@@ -10,6 +10,7 @@ from linebot.exceptions import (
 )
 import requests
 import config
+from pprint import pprint
 import json
 from datetime import datetime as dt
 import datetime
@@ -40,7 +41,6 @@ today_now = slicer(today_now)
 
 def notion(today_task):                     # Notionから情報を持ってくる
   for i in range(len(req.json()["results"])):
-    # quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     try:
       quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     except TypeError:

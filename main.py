@@ -9,7 +9,6 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 import requests
-from pprint import pprint
 import json
 import os
 from datetime import datetime as dt
@@ -45,7 +44,7 @@ def notion(today_task):                     # Notionから情報を持ってく�
     try:
       quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     except TypeError:
-      pass
+      quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     else:
       pass
     times = quantity[11:16]
