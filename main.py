@@ -43,8 +43,8 @@ def notion(today_task):                     # Notionから情報を持ってく�
   for i in range(len(req.json()["results"])):
     try:
       quantity = req.json()['results'][i]['properties']['日付']['date']['start']
-    except TypeError:
-      quantity = req.json()['results'][i]['properties']['日付']['date']['start']
+    except:
+      line_bot_api.push_message(USER_ID, messages="バグ起きてるので確認してください！")
     else:
       pass
     times = quantity[11:16]
