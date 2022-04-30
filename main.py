@@ -49,7 +49,8 @@ def notion(today_task):                     # Notionから情報を持ってく�
       else:
         break  # 失敗しなかった時はループを抜ける
     else:
-      line_bot_api.push_message(USER_ID, messages="バグ起きてるので確認してください！")
+      pushText = TextSendMessage(text="バグ起きてるので確認してください！")
+      line_bot_api.push_message(USER_ID, messages=pushText)
     times = quantity[11:16]
     t_date = slicer(quantity)
     if t_date == today_now:
