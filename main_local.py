@@ -15,6 +15,7 @@ import json
 from datetime import datetime as dt
 import datetime
 from flask import Flask, render_template, g, request, abort
+import sys
 
 app = Flask(__name__)
 
@@ -41,15 +42,23 @@ today_now = slicer(today_now)
 
 def notion(today_task):                     # Notionから情報を持ってくる
   for i in range(len(req.json()["results"])):
+  # for i in range(3):
     for _ in range(3):  # 最大3回実行
       try:
         quantity = req.json()['results'][i]['properties']['日付']['date']['start']  # 失敗しそうな処理
+        # print(req.json()['results'][i])
       except Exception as e:
         pass  # 必要であれば失敗時の処理
       else:
         break  # 失敗しなかった時はループを抜ける
     else:
-      pass  # リトライが全部失敗した時の処理
+      # pass
+      print(req.json()['results'][i]['properties']['名前'])
+      print(req.json()['results'][i])
+      print(i)
+      # pushText = TextSendMessage(text="明日の予定は自分で確認してね")
+      # line_bot_api.push_message(USER_ID, messages=pushText)       # リトライが全部失敗した時の処理
+      # sys.exit()
     # try:
     #   quantity = req.json()['results'][i]['properties']['日付']['date']['start']
     # except TypeError:
@@ -80,8 +89,9 @@ def crate_task_list(task):
   return task
 
 def main(text):
-  pushText = TextSendMessage(text=text)
-  line_bot_api.push_message(USER_ID, messages=pushText)
+  print("")
+  # pushText = TextSendMessage(text=text)
+  # line_bot_api.push_message(USER_ID, messages=pushText)
 
 if __name__ == "__main__":
     main(crate_task_list("明日のタスクは\n"))
