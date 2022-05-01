@@ -46,15 +46,16 @@ def notion(today_task):                     # Notionから情報を持ってく�
     for _ in range(3):  # 最大3回実行
       try:
         quantity = req.json()['results'][i]['properties']['日付']['date']['start']  # 失敗しそうな処理
-        # print(req.json()['results'][i])
       except Exception as e:
         pass  # 必要であれば失敗時の処理
       else:
         break  # 失敗しなかった時はループを抜ける
     else:
-      # pass
-      pushText = TextSendMessage(text="明日の予定は自分で確認してね")
-      line_bot_api.push_message(USER_ID, messages=pushText)       # リトライが全部失敗した時の処理
+      print(req.json()['results'][i])
+      print(i)
+      pass
+      # pushText = TextSendMessage(text="明日の予定は自分で確認してね")
+      # line_bot_api.push_message(USER_ID, messages=pushText)       # リトライが全部失敗した時の処理
       # sys.exit()
     # try:
     #   quantity = req.json()['results'][i]['properties']['日付']['date']['start']
