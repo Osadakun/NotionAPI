@@ -51,8 +51,8 @@ def notion(today_task):                     # Notionから情報を持ってく�
       else:
         break  # 失敗しなかった時はループを抜ける
     else:
-      print(req.json()['results'][i])
-      print(i)
+      # print(req.json()['results'][i])
+      # print(i)
       pass
       # pushText = TextSendMessage(text="明日の予定は自分で確認してね")
       # line_bot_api.push_message(USER_ID, messages=pushText)       # リトライが全部失敗した時の処理
